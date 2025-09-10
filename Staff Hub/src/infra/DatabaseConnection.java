@@ -10,7 +10,7 @@ public class DatabaseConnection {
     private DatabaseConnection() {
         try {
             this.connection = DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/rh", "root", "1234");
+                    "jdbc:mysql://localhost:3306/staffhub", "root", "PUC@1234");
         } catch (SQLException e) { throw new RuntimeException(e); }
     }
     public static DatabaseConnection getInstance() {
