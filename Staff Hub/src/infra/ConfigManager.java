@@ -10,7 +10,7 @@ public class ConfigManager {
     private ConfigManager() {
         cfg.put("env", "DEV");
         cfg.put("storage.dir", "uploads");
-        cfg.put("users.file", "data/usuarios.txt"); // <- caminho do TXT
+        cfg.put("users.file", "data/usuarios.txt");
     }
 
     public static ConfigManager getInstance() {

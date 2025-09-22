@@ -9,7 +9,6 @@ public class LocalStorage implements Storage {
             Path dir = Paths.get(ConfigManager.getInstance().get("storage.dir"), "local");
             if (!Files.exists(dir)) Files.createDirectories(dir);
             Path destino = dir.resolve(System.nanoTime() + "-" + arquivoLocal);
-            // só simula a cópia
             Files.writeString(destino, "ARQUIVO_FAKE");
             System.out.println("Salvando local -> " + destino.toString());
             return destino.toString();

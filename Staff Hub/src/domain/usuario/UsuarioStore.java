@@ -9,17 +9,15 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
-/**
- * Armazena usuários em um TXT CSV-like (id;nome;cpf;email).
- * É só um helper de arquivo (não é DAO/banco).
- */
 public class UsuarioStore {
     private final Path file;
     private final AtomicInteger seq = new AtomicInteger(0);
 
     public UsuarioStore() {
-        String path = ConfigManager.getInstance().get("users.file");
-        this.file = Paths.get(path);
+        String relative = ConfigManager.getInstance().get("users.file");
+        this.file = Paths.get(System.getProperty("user.dir")).resolve(relative).normalize();
+
+        System.out.println("[UsuarioStore] Arquivo: " + file.toAbsolutePath());
         initFileIfNeeded();
         carregarMaiorId();
     }
@@ -27,17 +25,23 @@ public class UsuarioStore {
     private void initFileIfNeeded() {
         try {
             Path dir = file.getParent();
-            if (dir != null && !Files.exists(dir)) Files.createDirectories(dir);
+            if (dir != null && !Files.exists(dir)) {
+                Files.createDirectories(dir);
+                System.out.println("[UsuarioStore] Criou diretório: " + dir);
+            }
             if (!Files.exists(file)) {
                 Files.createFile(file);
-                // sementes
+                System.out.println("[UsuarioStore] Criou arquivo: " + file);
                 List<String> seed = List.of(
                         "1;Ana Souza;123.456.789-00;ana@example.com",
                         "2;Bruno Lima;987.654.321-00;bruno@example.com"
                 );
                 Files.write(file, seed, StandardCharsets.UTF_8, StandardOpenOption.APPEND);
+                System.out.println("[UsuarioStore] Seed inserido.");
             }
-        } catch (IOException e) { throw new RuntimeException(e); }
+        } catch (IOException e) {
+            throw new RuntimeException("Falha criando arquivo de usuários em " + file, e);
+        }
     }
 
     private void carregarMaiorId() {
