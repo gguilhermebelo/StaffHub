@@ -41,12 +41,12 @@ public class Main {
         listar(store.listar());
 
         System.out.println("\n-- STRATEGY: Pagamento --");
-        new PagamentoService(new CalculoMensal()).processar(7, 3000.0);
-        new PagamentoService(new CalculoExtra()).processar(7, 3000.0);
+        new PagamentoService(new CalculoMensal()).processar(1, 5000.0);
+        new PagamentoService(new CalculoExtra()).processar(1, 700.0);
 
         System.out.println("\n-- STRATEGY: Notificacao --");
-        new NotificacaoService(new NotificacaoEmail()).notificar(7, "Seu holerite está disponível.");
-        new NotificacaoService(new NotificacaoSMS()).notificar(7, "Suas férias foram aprovadas!");
+        new NotificacaoService(new NotificacaoEmail()).notificar(2, "Seu holerite está disponível.");
+        new NotificacaoService(new NotificacaoSMS()).notificar(3, "Suas férias foram aprovadas!");
 
         System.out.println("\n-- BRIDGE: Upload --");
         new AtestadoUploader(new LocalStorage()).upload("atestado.pdf");
